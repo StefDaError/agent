@@ -106,7 +106,6 @@ namespace agent.Hardware
 
             foreach (var item in searcher.Get().Cast<ManagementObject>())
             {
-                // AdapterRAM в WMI обрезается до uint — для >4GB врёт, но для примера ок
                 long? vram = item["AdapterRAM"] is { } v ? Convert.ToInt64(v) : null;
 
                 result.Add(new GpuInfo(
@@ -122,8 +121,6 @@ namespace agent.Hardware
 
         private static MotherboardInfo CollectMotherboard()
         {
-            using var searcher = new ManagementObjectSearcher(
-                "SELECT Manufacturer, Product, SerialNumber FROM Win32_BaseBoard");
 
             foreach (var obj in searcher.Get().Cast<ManagementObject>())
             {
@@ -140,8 +137,6 @@ namespace agent.Hardware
 
         private static OsInfo CollectOs()
         {
-            using var searcher = new ManagementObjectSearcher(
-                "SELECT Caption, Version, OSArchitecture, LastBootUpTime FROM Win32_OperatingSystem");
 
             foreach (var obj in searcher.Get().Cast<ManagementObject>())
             {

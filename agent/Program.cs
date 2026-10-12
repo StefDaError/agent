@@ -7,12 +7,15 @@ internal class Program
     {
         IHardwareInfoProvider provider = new WindowsHardwareInfoProvider();
         var printer = new ConsolePrinter();
+        var jsonWriter = new HardwareJsonWriter();   
 
         try
         {
             Console.WriteLine("Сбор данных о железе...");
             var info = provider.Collect();
             printer.Print(info);
+
+            jsonWriter.Write(info);                  
         }
         catch (Exception ex)
         {
