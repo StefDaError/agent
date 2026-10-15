@@ -121,6 +121,7 @@ namespace agent.Hardware
 
         private static MotherboardInfo CollectMotherboard()
         {
+            using var searcher = new ManagementObjectSearcher("SELECT Manufacturer, Product, SerialNumber FROM Win32_BaseBoard");
 
             foreach (var obj in searcher.Get().Cast<ManagementObject>())
             {
@@ -137,7 +138,7 @@ namespace agent.Hardware
 
         private static OsInfo CollectOs()
         {
-
+            using var searcher = new ManagementObjectSearcher("SELECT Caption, Version, OSArchitecture, LastBootUpTime FROM Win32_OperatingSystem");
             foreach (var obj in searcher.Get().Cast<ManagementObject>())
             {
                 var bootTime = obj["LastBootUpTime"] is { } b
